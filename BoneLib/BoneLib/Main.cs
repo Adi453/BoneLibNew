@@ -35,8 +35,13 @@ namespace BoneLib
             DataManager.Bundles.Init();
             DataManager.UI.AddComponents();
 
+<<<<<<< Updated upstream
             Hooking.OnPlayerReferencesFound += OnPlayerReferencesFound;
             Hooking.OnMarrowSceneLoaded += OnMarrowSceneLoaded;
+=======
+            Hooking.OnLevelInitialized += OnPlayerReferencesFound;
+            Hooking.OnLevelInitialized += OnLevelInitialized;
+>>>>>>> Stashed changes
 
             ClassInjector.RegisterTypeInIl2Cpp<PopupBox>();
 
