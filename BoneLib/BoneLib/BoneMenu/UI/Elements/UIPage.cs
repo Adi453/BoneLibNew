@@ -1,12 +1,9 @@
-﻿using System;
+﻿using BoneLib.BoneMenu.Elements;
+using SLZ.UI;
+using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
-
-using BoneLib.BoneMenu.Elements;
-
-using SLZ.UI;
 
 namespace BoneLib.BoneMenu.UI
 {
@@ -15,10 +12,11 @@ namespace BoneLib.BoneMenu.UI
     {
         public UIPage(IntPtr ptr) : base(ptr) { }
 
+        [UnhollowerBaseLib.Attributes.HideFromIl2Cpp]
         public List<UIElement> Elements { get; private set; } = new List<UIElement>();
         public Transform ElementGrid { get; private set; }
 
-        private SLZ.UI.UIGridEnable gridEnable;
+        private UIGridEnable gridEnable;
 
         private Transform returnArrow;
 
@@ -45,7 +43,7 @@ namespace BoneLib.BoneMenu.UI
             ElementGrid = transform.Find("Viewport/ElementGrid");
             returnArrow = transform.Find("Return");
 
-            gridEnable = transform.Find("Viewport/ElementGrid").GetComponent<SLZ.UI.UIGridEnable>();
+            gridEnable = transform.Find("Viewport/ElementGrid").GetComponent<UIGridEnable>();
             returnButton = returnArrow.GetComponent<Button>();
         }
 
@@ -53,7 +51,7 @@ namespace BoneLib.BoneMenu.UI
         {
             Action returnAction = () =>
             {
-                var category = (MenuCategory)_element;
+                MenuCategory category = (MenuCategory)element;
 
                 if (category.Parent != null)
                 {
@@ -61,11 +59,11 @@ namespace BoneLib.BoneMenu.UI
                 }
                 else
                 {
-                    if(MenuManager.ActiveCategory == MenuManager.RootCategory)
+                    if (MenuManager.ActiveCategory == MenuManager.RootCategory)
                     {
                         // return to base game options menu
                         gameObject.SetActive(false);
-                        DataManager.UI.PanelView.PAGESELECT(0);
+                        DataManager.UI.panelView.PAGESELECT(0);
                     }
                     else
                     {
@@ -89,7 +87,7 @@ namespace BoneLib.BoneMenu.UI
                 gridEnable.enabled = true;
             }
 
-            var activeCategory = MenuManager.ActiveCategory;
+            MenuCategory activeCategory = MenuManager.ActiveCategory;
 
             if (activeCategory == null)
             {
@@ -100,35 +98,35 @@ namespace BoneLib.BoneMenu.UI
 
             for (int i = 0; i < activeCategory.Elements.Count; i++)
             {
-                var element = activeCategory.Elements[i];
+                MenuElement element = activeCategory.Elements[i];
                 AssignUIElement(element);
             }
         }
 
         public void ClearDraw()
         {
-            if(gridEnable != null)
+            if (gridEnable != null)
             {
                 gridEnable.enabled = false;
                 gridEnable.enabled = true;
             }
 
-            foreach (var element in Elements)
+            foreach (UIElement element in Elements)
             {
-                var poolee = element.GetComponent<UIPoolee>();
+                UIPoolee poolee = element.GetComponent<UIPoolee>();
                 poolee.Return();
                 poolee.gameObject.SetActive(false);
             }
 
             Elements.Clear();
         }
-
+        [UnhollowerBaseLib.Attributes.HideFromIl2Cpp]
         private void AssignUIElement(MenuElement element)
         {
-            var uiElement = elementTypes[element.Type].Spawn(ElementGrid.transform, true).GetComponent<UIElement>();
+            UIElement uiElement = elementTypes[element.Type].Spawn(ElementGrid.transform, true).GetComponent<UIElement>();
             uiElement.AssignElement(element);
 
-            Elements?.Add(uiElement);
+            Elements.Add(uiElement);
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace BoneLib.BoneMenu.UI
 {
@@ -10,9 +9,11 @@ namespace BoneLib.BoneMenu.UI
     {
         public UIPool(System.IntPtr ptr) : base(ptr) { }
 
+        [UnhollowerBaseLib.Attributes.HideFromIl2Cpp]
         public List<UIPoolee> Pool { get => _pool; }
-
+        [UnhollowerBaseLib.Attributes.HideFromIl2Cpp]
         public List<UIPoolee> Active { get => _active; }
+        [UnhollowerBaseLib.Attributes.HideFromIl2Cpp]
         public List<UIPoolee> Inactive { get => _inactive; }
 
         public GameObject Prefab { get => _prefab; }
@@ -51,8 +52,8 @@ namespace BoneLib.BoneMenu.UI
 
             for (int i = 0; i < byElements; i++)
             {
-                var prefab = CreatePrefab(_prefab);
-                var poolee = prefab.AddComponent<UIPoolee>();
+                GameObject prefab = CreatePrefab(_prefab);
+                UIPoolee poolee = prefab.AddComponent<UIPoolee>();
 
                 poolee.SetParent(this);
                 prefab.SetActive(false);
@@ -64,9 +65,9 @@ namespace BoneLib.BoneMenu.UI
 
         public UIPoolee Spawn(Transform parent, bool startActive = false)
         {
-            var selected = GetInactive();
+            UIPoolee selected = GetInactive();
 
-            if(selected == null)
+            if (selected == null)
             {
                 Populate(2);
                 return Spawn(parent, startActive);
@@ -86,7 +87,7 @@ namespace BoneLib.BoneMenu.UI
 
         public UIPoolee Spawn(Transform parent, int orderInHierarchy, bool startActive = false)
         {
-            var selected = GetInactive();
+            UIPoolee selected = GetInactive();
 
             if (selected == null)
             {
@@ -106,19 +107,14 @@ namespace BoneLib.BoneMenu.UI
 
         private GameObject CreatePrefab(GameObject prefab)
         {
-            var _object = GameObject.Instantiate(prefab, transform);
+            GameObject _object = GameObject.Instantiate(prefab, transform);
             _object.SetActive(true);
             return _object;
         }
 
         private UIPoolee GetInactive()
         {
-            foreach(var inactiveObject in _inactive)
-            {
-                return inactiveObject;
-            }
-
-            return null;
+            return _inactive.FirstOrDefault();
         }
     }
 }

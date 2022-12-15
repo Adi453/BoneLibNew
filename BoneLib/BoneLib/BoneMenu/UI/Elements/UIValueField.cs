@@ -1,11 +1,6 @@
-﻿using System;
-using TMPro;
-using UnityEngine;
+﻿using BoneLib.BoneMenu.Elements;
+using System;
 using UnityEngine.UI;
-
-using BoneLib.BoneMenu.Elements;
-
-using SLZ.UI;
 
 namespace BoneLib.BoneMenu.UI
 {
@@ -31,14 +26,14 @@ namespace BoneLib.BoneMenu.UI
         {
             Action onLeftPressed = () =>
             {
-                _element?.OnSelectLeft();
-                SetText(_element.Name, _element.DisplayValue);
+                element?.OnSelectLeft();
+                SetText(element.Name, element.DisplayValue);
             };
 
             Action onRightPressed = () =>
             {
-                _element?.OnSelectRight();
-                SetText(_element.Name, _element.DisplayValue);
+                element?.OnSelectRight();
+                SetText(element.Name, element.DisplayValue);
             };
 
             if (leftButton != null)

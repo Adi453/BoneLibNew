@@ -1,5 +1,4 @@
 ﻿using System;
-
 using UnityEngine;
 
 namespace BoneLib.BoneMenu.Elements
@@ -49,4 +48,3 @@ namespace BoneLib.BoneMenu.Elements
         }
     }
 }
-    

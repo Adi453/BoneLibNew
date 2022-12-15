@@ -1,12 +1,6 @@
-﻿using System;
-using TMPro;
-
-using UnityEngine;
+﻿using BoneLib.BoneMenu.Elements;
+using System;
 using UnityEngine.UI;
-
-using BoneLib.BoneMenu.Elements;
-
-using SLZ.UI;
 
 namespace BoneLib.BoneMenu.UI
 {
@@ -28,7 +22,7 @@ namespace BoneLib.BoneMenu.UI
         {
             Action action = () =>
             {
-                var category = (MenuCategory)_element;
+                MenuCategory category = (MenuCategory)element;
                 MenuManager.SelectCategory(category);
             };
 

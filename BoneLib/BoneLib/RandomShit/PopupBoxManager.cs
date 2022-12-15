@@ -102,8 +102,8 @@ namespace BoneLib.RandomShit
             newPopup.AddComponent<PopupBox>();
 
             // Place the popup in front of the player
-            newPopup.transform.position = Player.GetPlayerHead().transform.position + Player.GetPlayerHead().transform.forward * 2;
-            newPopup.transform.rotation = Quaternion.LookRotation(newPopup.transform.position - Player.GetPlayerHead().transform.position);
+            newPopup.transform.position = Player.playerHead.transform.position + Player.playerHead.transform.forward * 2;
+            newPopup.transform.rotation = Quaternion.LookRotation(newPopup.transform.position - Player.playerHead.transform.position);
 
             return newPopup;
         }
@@ -137,8 +137,8 @@ namespace BoneLib.RandomShit
             newPopup.SetActive(true);
 
             // Place the popup in front of the player
-            newPopup.transform.position = Player.GetPlayerHead().transform.position + Player.GetPlayerHead().transform.forward * 2;
-            newPopup.transform.rotation = Quaternion.LookRotation(newPopup.transform.position - Player.GetPlayerHead().transform.position);
+            newPopup.transform.position = Player.playerHead.transform.position + Player.playerHead.transform.forward * 2;
+            newPopup.transform.rotation = Quaternion.LookRotation(newPopup.transform.position - Player.playerHead.transform.position);
 
             return newPopup;
         }
@@ -197,7 +197,6 @@ namespace BoneLib.RandomShit
 
             string jsonUrls = urlReq.downloadHandler.text; // return value is something like ["https://cdn.shibe.online/shibes/8f0792fcac8df87a5d2953031a837a2939fda430.jpg"]
             string imageUrl = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(jsonUrls)[0];
-            ModConsole.Msg($"Image url={imageUrl}");
 
             UnityWebRequest imageReq = UnityWebRequest.Get(imageUrl);
             imageReq.BeginWebRequest();
@@ -246,8 +245,8 @@ namespace BoneLib.RandomShit
                 yield return new WaitForSeconds(5f);
 
             GameObject newAd = CreateNewPopupBox();
-            newAd.transform.position = Player.GetPlayerHead().transform.position + Player.GetPlayerHead().transform.forward * 2;
-            newAd.transform.rotation = Quaternion.LookRotation(newAd.transform.position - Player.GetPlayerHead().transform.position);
+            newAd.transform.position = Player.playerHead.transform.position + Player.playerHead.transform.forward * 2;
+            newAd.transform.rotation = Quaternion.LookRotation(newAd.transform.position - Player.playerHead.transform.position);
 
             MelonCoroutines.Start(CoSpawnAds());
         }
@@ -260,7 +259,7 @@ namespace BoneLib.RandomShit
             #region Resources
             AudioClip[] clips = Resources.FindObjectsOfTypeAll<AudioClip>();
             List<AudioClip> sounds = new List<AudioClip>();
-            foreach (var clip in clips)
+            foreach (AudioClip clip in clips)
                 if (clip.name.Contains("ImpactSoft_SwordBroad"))
                     sounds.Add(clip);
 
@@ -269,7 +268,7 @@ namespace BoneLib.RandomShit
             HandPose cornerGrip = null;
             HandPose faceGrip = null;
             HandPose[] poses = Resources.FindObjectsOfTypeAll<HandPose>();
-            foreach (var p in poses)
+            foreach (HandPose p in poses)
             {
                 if (p.name == "BoxSandwichGrip")
                     sandwichGrip = p;

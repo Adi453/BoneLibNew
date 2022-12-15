@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using TMPro;
-
 namespace BoneLib.BoneMenu.Elements
 {
     public abstract class MenuElement
@@ -15,8 +13,8 @@ namespace BoneLib.BoneMenu.Elements
         public string Name { get; protected set; }
         public Color Color { get; protected set; }
 
-        public virtual ElementType Type { get => ElementType.Default; }
-        public virtual string DisplayValue { get => "Default"; }
+        public virtual ElementType Type => ElementType.Default;
+        public virtual string DisplayValue => "Default";
 
         public void SetName(string name)
         {

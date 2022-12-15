@@ -1,64 +1,39 @@
-﻿using UnityEngine;
-
-using BoneLib.BoneMenu;
-using BoneLib.BoneMenu.Elements;
-
+﻿using BoneLib.Nullables;
 using BoneLib.RandomShit;
-using BoneLib.Nullables;
-
-using SLZ.Player;
 using SLZ.Data;
-
-using SLZ.Marrow;
 using SLZ.Marrow.Data;
 using SLZ.Marrow.Pool;
 using SLZ.Marrow.Warehouse;
+using SLZ.Player;
+using UnityEngine;
 
 namespace BoneLib.BoneMenu
 {
     internal static class DefaultMenu
     {
-        static AmmoInventory ammoInventory => AmmoInventory.Instance;
+        private static AmmoInventory AmmoInventory => AmmoInventory.Instance;
 
-        static AmmoGroup lightAmmo
-        {
-            get
-            {
-                return ammoInventory?.lightAmmoGroup;
-            }
-        }
+        private static AmmoGroup LightAmmo => AmmoInventory.lightAmmoGroup;
 
-        static AmmoGroup mediumAmmo
-        {
-            get
-            {
-                return ammoInventory?.mediumAmmoGroup;
-            }
-        }
+        private static AmmoGroup MediumAmmo => AmmoInventory.mediumAmmoGroup;
 
-        static AmmoGroup heavyAmmo
-        {
-            get
-            {
-                return ammoInventory?.heavyAmmoGroup;
-            }
-        }
+        private static AmmoGroup HeavyAmmo => AmmoInventory.heavyAmmoGroup;
 
-        static int lightAmmoValue = 100;
-        static int mediumAmmoValue = 100;
-        static int heavyAmmoValue = 100;
+        private static int lightAmmoValue = 100;
+        private static int mediumAmmoValue = 100;
+        private static int heavyAmmoValue = 100;
 
         public static void CreateDefaultElements()
         {
-            var mainCategory = MenuManager.CreateCategory("BoneLib", Color.white);
+            Elements.MenuCategory mainCategory = MenuManager.CreateCategory("BoneLib", Color.white);
 
-            var ammo = mainCategory.CreateSubPanel("Ammo Settings", Color.yellow);
-            var itemSpawning = mainCategory.CreateSubPanel("Item Spawning", Color.white);
-            var funstuff = mainCategory.CreateSubPanel("Fun Stuff", "#e600ff");
+            Elements.SubPanelElement ammo = mainCategory.CreateSubPanel("Ammo Settings", Color.yellow);
+            Elements.SubPanelElement itemSpawning = mainCategory.CreateSubPanel("Item Spawning", Color.white);
+            Elements.SubPanelElement funstuff = mainCategory.CreateSubPanel("Fun Stuff", "#e600ff");
 
-            ammo.CreateFunctionElement("Add Light Ammo", Color.white, () => ammoInventory.AddCartridge(lightAmmo, lightAmmoValue));
-            ammo.CreateFunctionElement("Add Medium Ammo", Color.white, () => ammoInventory.AddCartridge(mediumAmmo, mediumAmmoValue));
-            ammo.CreateFunctionElement("Add Heavy Ammo", Color.white, () => ammoInventory.AddCartridge(heavyAmmo, heavyAmmoValue));
+            ammo.CreateFunctionElement("Add Light Ammo", Color.white, () => AmmoInventory.AddCartridge(LightAmmo, lightAmmoValue));
+            ammo.CreateFunctionElement("Add Medium Ammo", Color.white, () => AmmoInventory.AddCartridge(MediumAmmo, mediumAmmoValue));
+            ammo.CreateFunctionElement("Add Heavy Ammo", Color.white, () => AmmoInventory.AddCartridge(HeavyAmmo, heavyAmmoValue));
 
             ammo.CreateIntElement("Light Ammo", "#ffe11c", lightAmmoValue, 100, 0, int.MaxValue, (value) => lightAmmoValue = value);
             ammo.CreateIntElement("Medium Ammo", "#ff9d1c", mediumAmmoValue, 100, 0, int.MaxValue, (value) => mediumAmmoValue = value);
@@ -75,7 +50,7 @@ namespace BoneLib.BoneMenu
 
         internal static void SpawnUtilityGun()
         {
-            var head = Player.GetPlayerHead().transform;
+            Transform head = Player.playerHead.transform;
 
             string barcode = "c1534c5a-5747-42a2-bd08-ab3b47616467";
             SpawnableCrateReference reference = new SpawnableCrateReference(barcode);
@@ -91,7 +66,7 @@ namespace BoneLib.BoneMenu
 
         internal static void SpawnNimbusGun()
         {
-            var head = Player.GetPlayerHead().transform;
+            Transform head = Player.playerHead.transform;
 
             string barcode = "c1534c5a-6b38-438a-a324-d7e147616467";
             SpawnableCrateReference reference = new SpawnableCrateReference(barcode);

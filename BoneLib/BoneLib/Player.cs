@@ -8,49 +8,48 @@ namespace BoneLib
 {
     public static class Player
     {
-        private static GameObject playerHead;
+        private static readonly string playerHeadPath = "[PhysicsRig]/Head"; // The path to the head relative to the rig manager
 
-        public static RigManager rigManager
-        {
-            get
-            {
-                if(_rigManager == null)
-                {
-                    _rigManager = GameObject.FindObjectOfType<RigManager>();
-                }
+        public static RigManager rigManager { get; private set; }
+        public static PhysicsRig physicsRig { get; private set; }
+        public static ControllerRig controllerRig { get; private set; }
+        public static UIRig uiRig { get; private set; }
 
-                return _rigManager;
-            }
-        }
-
-        public static PhysicsRig physicsRig { get => rigManager?.physicsRig; }
-        public static ControllerRig controllerRig { get => rigManager?.ControllerRig; }
-        public static UIRig uiRig { get => rigManager?.uiRig; }
-
-        public static Hand leftHand { get => physicsRig?.leftHand; }
-        public static Hand rightHand { get => physicsRig?.rightHand; }
+        public static Hand leftHand { get; private set; }
+        public static Hand rightHand { get; private set; }
         public static bool handsExist => leftHand != null && rightHand != null;
 
-        public static BaseController leftController { get => controllerRig?.leftController; }
-        public static BaseController rightController { get => controllerRig?.rightController; }
+        public static BaseController leftController { get; private set; }
+        public static BaseController rightController { get; private set; }
         public static bool controllersExist => leftController != null && rightController != null;
 
-        private static RigManager _rigManager;
+        public static Transform playerHead { get; private set; }
 
-        /// <summary>
-        /// Returns the root gameobject of the Player's <see cref="RigManager"/>.
-        /// </summary>
-        public static GameObject GetRigManager()
+        internal static bool FindObjectReferences(RigManager manager = null)
         {
-            return rigManager.gameObject;
-        }
+            ModConsole.Msg("Finding player object references", LoggingMode.DEBUG);
 
-        /// <summary>
-        /// Returns the gameobject of the Player's head.
-        /// </summary>
-        public static GameObject GetPlayerHead()
-        {
-            return physicsRig.m_head.gameObject;
+            if (controllersExist && handsExist && controllerRig != null)
+                return false;
+            if (manager == null)
+                manager = GameObject.FindObjectOfType<RigManager>();
+
+            rigManager = manager;
+            physicsRig = manager?.physicsRig;
+            controllerRig = manager?.ControllerRig;
+            uiRig = manager?.uiRig;
+
+            leftController = manager?.ControllerRig?.leftController;
+            rightController = manager?.ControllerRig?.rightController;
+
+            leftHand = manager?.physicsRig?.leftHand;
+            rightHand = manager?.physicsRig?.rightHand;
+
+            playerHead = rigManager.transform.Find(playerHeadPath);
+
+            ModConsole.Msg("Found player object references", LoggingMode.DEBUG);
+
+            return controllersExist && handsExist && controllerRig != null;
         }
 
         /// <summary>
@@ -58,13 +57,15 @@ namespace BoneLib
         /// </summary>
         public static PhysicsRig GetPhysicsRig()
         {
+            if (physicsRig == null)
+                physicsRig = GameObject.FindObjectOfType<PhysicsRig>();
             return physicsRig;
         }
 
         /// <summary>
         /// Returns the Player's current <see cref="Avatar"/>.
         /// </summary>
-        public static Avatar GetCurrentAvatar() => GetRigManager().GetComponent<RigManager>().avatar;
+        public static Avatar GetCurrentAvatar() => rigManager.avatar;
 
         /// <summary>
         /// Generic method for getting any component on the object the Player is holding.

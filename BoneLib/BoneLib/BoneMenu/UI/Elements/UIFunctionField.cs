@@ -1,12 +1,7 @@
-﻿using System;
+﻿using BoneLib.BoneMenu.Elements;
+using System;
 using TMPro;
-
-using UnityEngine;
 using UnityEngine.UI;
-
-using BoneLib.BoneMenu.Elements;
-
-using SLZ.UI;
 
 namespace BoneLib.BoneMenu.UI
 {
@@ -38,7 +33,7 @@ namespace BoneLib.BoneMenu.UI
         {
             Action onPressed = () =>
             {
-                var functionElement = (FunctionElement)_element;
+                FunctionElement functionElement = (FunctionElement)element;
                 confirmerText.text = functionElement.ConfirmText;
                 functionElement.OnSelectElement();
 
@@ -50,7 +45,7 @@ namespace BoneLib.BoneMenu.UI
 
             Action onConfirmerPressed = () =>
             {
-                var functionElement = (FunctionElement)_element;
+                FunctionElement functionElement = (FunctionElement)element;
                 functionElement.OnSelectConfirm();
                 confirmerButton.gameObject.SetActive(false);
             };
